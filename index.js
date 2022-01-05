@@ -28,6 +28,7 @@ require('http').createServer(function(req, res) {
               });
            }else if(req.method == "GET"){
                serverId = req.headers.auth
+               if(!serverId) res.end("no id")
                var dedicated = serversObj[serverId]
                   console.log(serversObj,serverId ,dedicated)
                proxy.web(req, res, {target:dedicated},(err)=>{

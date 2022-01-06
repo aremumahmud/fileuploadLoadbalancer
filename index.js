@@ -31,13 +31,16 @@ require('http').createServer(function(req, res) {
            }else if(req.method == "GET"){
                if(servers.length==0) res.end("bad gateway")
                var serverId = req.headers.auth
-               if(!serverId) res.end("no id")
-               var dedicated = serversObj[serverId]
-               req.headers.host = dedicated
+               if(!serverId){
+                    res.end("no id")
+               }else{
+                  var dedicated = serversObj[serverId]
+                  req.headers.host = dedicated
                   console.log(serversObj,serverId ,dedicated)
-               proxy.web(req, res, {target:"http://"+dedicated},(err)=>{
+                  proxy.web(req, res, {target:"http://"+dedicated},(err)=>{
                       res.end("err")
-               });
+                  });
+               }
            }
       }else{
          var { url } = req

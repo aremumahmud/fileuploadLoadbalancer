@@ -5,7 +5,8 @@ var httpProxy = require('http-proxy');
 var parseServers = require("./parseServers")
 var servers = fs.readFileSync("./servers.file").toString().split("\n")
 
-
+servers.pop()
+servers.shift()
 var serverArray = servers.map(server=>{
   return server.split(" ")[0]
 })

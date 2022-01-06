@@ -30,7 +30,7 @@ require('http').createServer(function(req, res) {
               });
            }else if(req.method == "GET"){
                if(servers.length==0) res.end("bad gateway")
-               serverId = req.headers.auth
+               var serverId = req.headers.auth
                if(!serverId) res.end("no id")
                var dedicated = serversObj[serverId]
                req.headers.host = dedicated

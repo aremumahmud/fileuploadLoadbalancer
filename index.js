@@ -23,15 +23,17 @@ require('http').createServer(function(req, res) {
       }else if(req.url.indexOf("/Update") != 0){
            if(req.method == "POST" ){
              index = (index + 1) % servers.length;
-              proxy.web(req, res, {target:serverArray[index]},(err)=>{
+             req.headers.host = serverArray[index]
+              proxy.web(req, res, {target:"http://"+serverArray[index]},(err)=>{
                         res.end("err")
               });
            }else if(req.method == "GET"){
                serverId = req.headers.auth
                if(!serverId) res.end("no id")
                var dedicated = serversObj[serverId]
+               req.headers.host = dedicated
                   console.log(serversObj,serverId ,dedicated)
-               proxy.web(req, res, {target:dedicated},(err)=>{
+               proxy.web(req, res, {target:"http://"+dedicated},(err)=>{
                       res.end("err")
                });
            }

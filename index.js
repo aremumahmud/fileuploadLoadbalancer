@@ -22,12 +22,14 @@ require('http').createServer(function(req, res) {
 
       }else if(req.url.indexOf("/Update") != 0){
            if(req.method == "POST" ){
+             if(servers.length) res.end("bad gateway")
              index = (index + 1) % servers.length;
              req.headers.host = serverArray[index]
               proxy.web(req, res, {target:"http://"+serverArray[index]},(err)=>{
                         res.end("err")
               });
            }else if(req.method == "GET"){
+               if(servers.length) res.end("bad gateway")
                serverId = req.headers.auth
                if(!serverId) res.end("no id")
                var dedicated = serversObj[serverId]
